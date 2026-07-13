@@ -1,0 +1,521 @@
+/* ------------------------------------------------------------------
+   Estilos globales — minimalismo intencional: la obra (y la actriz)
+   mandan; la interfaz desaparece. Mobile-first.
+------------------------------------------------------------------- */
+
+:root {
+  --bg: #faf9f7;
+  --text: #191817;
+  --muted: #6f6a64;
+  --line: #e4e1dc;
+  --max-width: 68rem;
+  --font-serif: 'Iowan Old Style', 'Palatino', Georgia, 'Times New Roman', serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  line-height: 1.2;
+  margin: 0 0 0.6em;
+}
+
+h1 {
+  font-size: clamp(1.9rem, 5vw, 2.8rem);
+}
+
+h2 {
+  font-size: clamp(1.4rem, 3.5vw, 1.8rem);
+}
+
+/* Enfoque visible para navegación por teclado */
+:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 3px;
+}
+
+.contenedor {
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+/* ---- Cabecera y navegación ---- */
+
+.cabecera {
+  padding-block: 1.5rem;
+}
+
+.cabecera-fila {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+}
+
+.marca {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+  align-items: baseline;
+}
+
+.nav a {
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--muted);
+  padding-block: 0.25rem;
+}
+
+.nav a:hover {
+  color: var(--text);
+}
+
+.nav a[aria-current='page'] {
+  color: var(--text);
+  border-bottom: 1px solid var(--text);
+}
+
+.selector-idioma {
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+}
+
+.selector-idioma a {
+  text-decoration: none;
+  color: var(--muted);
+}
+
+.selector-idioma a:hover,
+.selector-idioma [aria-current='true'] {
+  color: var(--text);
+}
+
+/* ---- Contenido principal ---- */
+
+main {
+  min-height: 60vh;
+  padding-block: 2rem 4rem;
+}
+
+.intro-pagina {
+  max-width: 42rem;
+  color: var(--muted);
+}
+
+/* ---- Portada ---- */
+
+.portada {
+  display: grid;
+  gap: 2rem;
+  align-items: center;
+  padding-block: 1rem 3rem;
+}
+
+.portada-imagen img {
+  width: 100%;
+  height: auto;
+}
+
+.portada-texto h1 {
+  margin-bottom: 0.2em;
+}
+
+.portada-profesion {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin: 0 0 1.5rem;
+}
+
+.portada-frase {
+  font-family: var(--font-serif);
+  font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+  font-style: italic;
+  color: var(--muted);
+  max-width: 26em;
+  margin: 0;
+}
+
+@media (min-width: 48rem) {
+  .portada {
+    grid-template-columns: 3fr 2fr;
+    gap: 3.5rem;
+  }
+}
+
+/* ---- Galería de trabajos ---- */
+
+.grupo-categoria {
+  margin-block: 3rem;
+}
+
+.grupo-categoria h2 {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 0.4rem;
+  margin-bottom: 1.5rem;
+}
+
+.rejilla-trabajos {
+  display: grid;
+  gap: 2rem 1.5rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 34rem) {
+  .rejilla-trabajos {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 56rem) {
+  .rejilla-trabajos {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.tarjeta-trabajo a {
+  text-decoration: none;
+  display: block;
+}
+
+.tarjeta-trabajo img {
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  width: 100%;
+}
+
+.tarjeta-trabajo h3 {
+  font-size: 1.1rem;
+  margin: 0.75rem 0 0.1rem;
+}
+
+.tarjeta-trabajo p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+/* ---- Detalle de trabajo ---- */
+
+.detalle-trabajo {
+  display: grid;
+  gap: 2rem;
+}
+
+.ficha-trabajo {
+  font-size: 0.9rem;
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.35rem 1.25rem;
+  margin: 0;
+}
+
+.ficha-trabajo dt {
+  color: var(--muted);
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  padding-top: 0.15em;
+}
+
+.ficha-trabajo dd {
+  margin: 0;
+}
+
+@media (min-width: 48rem) {
+  .detalle-trabajo {
+    grid-template-columns: 3fr 2fr;
+    align-items: start;
+  }
+}
+
+.enlace-volver {
+  display: inline-block;
+  margin-top: 2.5rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ---- Sobre mí ---- */
+
+.sobre-mi {
+  display: grid;
+  gap: 2.5rem;
+}
+
+@media (min-width: 48rem) {
+  .sobre-mi {
+    grid-template-columns: 2fr 3fr;
+    align-items: start;
+  }
+}
+
+/* ---- CV ---- */
+
+.cv-seccion {
+  margin-block: 2.5rem;
+}
+
+.cv-seccion h2 {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 0.4rem;
+}
+
+.cv-entrada {
+  display: grid;
+  grid-template-columns: 6rem 1fr;
+  gap: 1rem;
+  padding-block: 0.4rem;
+}
+
+.cv-entrada .anio {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.boton {
+  display: inline-block;
+  border: 1px solid var(--text);
+  padding: 0.6em 1.4em;
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  background: none;
+  color: var(--text);
+  cursor: pointer;
+  font-family: var(--font-sans);
+}
+
+.boton:hover {
+  background: var(--text);
+  color: var(--bg);
+}
+
+/* ---- Videobook ---- */
+
+.marco-video {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  background: #111;
+}
+
+.marco-video iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* ---- Contacto ---- */
+
+.formulario {
+  display: grid;
+  gap: 1.25rem;
+  max-width: 34rem;
+  margin-top: 2rem;
+}
+
+.formulario label {
+  display: grid;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.formulario input,
+.formulario textarea {
+  font: inherit;
+  color: var(--text);
+  background: transparent;
+  border: 1px solid var(--line);
+  padding: 0.65em 0.8em;
+  border-radius: 0;
+}
+
+.formulario input:focus,
+.formulario textarea:focus {
+  border-color: var(--text);
+  outline: none;
+}
+
+.lista-contacto {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+/* ------------------------------------------------------------------
+   Animaciones — sutiles y estratégicas. Todo queda desactivado si el
+   usuario tiene "reducir movimiento" activado en su sistema.
+------------------------------------------------------------------- */
+
+/* Micro-transiciones (imperceptibles como animación, dan tacto) */
+a,
+.boton {
+  transition: color 0.2s ease, background-color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.tarjeta-media {
+  overflow: hidden;
+}
+
+.tarjeta-trabajo img {
+  transition: transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+@media (hover: hover) {
+  .tarjeta-trabajo a:hover img,
+  .tarjeta-trabajo a:focus-visible img {
+    transform: scale(1.03);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Fundido entre páginas (view transitions CSS, sin JS;
+     los navegadores sin soporte lo ignoran) */
+  @view-transition {
+    navigation: auto;
+  }
+
+  /* Aparición al cargar la página */
+  @keyframes aparecer {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  main > h1 {
+    animation: aparecer 0.6s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  }
+
+  .portada-imagen {
+    animation: aparecer 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  }
+
+  .portada-texto h1 {
+    animation: aparecer 0.6s cubic-bezier(0.22, 0.61, 0.36, 1) 0.15s both;
+  }
+
+  .portada-profesion {
+    animation: aparecer 0.6s cubic-bezier(0.22, 0.61, 0.36, 1) 0.25s both;
+  }
+
+  .portada-frase,
+  .portada-texto .boton {
+    animation: aparecer 0.6s cubic-bezier(0.22, 0.61, 0.36, 1) 0.35s both;
+  }
+
+  /* Solo la columna de texto: la imagen llega con la view transition
+     desde la tarjeta de la galería y no debe partir de opacidad 0. */
+  .detalle-trabajo > div:last-child {
+    animation: aparecer 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) 0.1s both;
+  }
+
+  /* Timing del morph de imagen entre galería y detalle */
+  ::view-transition-group(*) {
+    animation-duration: 0.45s;
+    animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+}
+
+/* Aparición escalonada al cargar: cada elemento .revelar entra con un
+   retardo según su posición (--revelar-orden, puesto inline en el HTML). */
+@media (prefers-reduced-motion: no-preference) {
+  .revelar {
+    animation: aparecer 0.65s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+    animation-delay: calc(0.15s + var(--revelar-orden, 0) * 0.09s);
+  }
+}
+
+/* ---- Pie ---- */
+
+.pie {
+  border-top: 1px solid var(--line);
+  padding-block: 1.5rem 2.5rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+/* ---- Impresión (CV en PDF vía imprimir) ---- */
+
+@media print {
+  .cabecera,
+  .pie,
+  .no-imprimir {
+    display: none !important;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+    font-size: 11pt;
+  }
+
+  main {
+    padding: 0;
+  }
+
+  a {
+    text-decoration: none;
+    color: #000;
+  }
+}

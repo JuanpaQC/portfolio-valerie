@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { cv } from '../../data/cv';
+import { perfil } from '../../data/perfil';
+import { routes, useTranslations, type Lang } from '../../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const secciones = cv.filter((s) => s.entradas.length > 0);
+const description =
+  lang === 'es'
+    ? `Currículum de ${perfil.nombre}: formación, teatro, cine y televisión.`
+    : `${perfil.nombre}'s resume: training, theatre, film and television.`;
+---
+
+<BaseLayout
+  lang={lang}
+  title={t('cv.titulo')}
+  description={description}
+  translatedPath={routes.cv[lang === 'es' ? 'en' : 'es']}
+>
+  <h1>{t('cv.titulo')}</h1>
+  <p class="no-imprimir">
+    <button class="boton" id="descargar-cv" type="button">{t('cv.descargar')}</button>
+  </p>
+
+  {
+    secciones.map((seccion, indice) => (
+      <section
+        class="cv-seccion revelar"
+        style={`--revelar-orden: ${indice}`}
+        aria-labelledby={`cv-${seccion.id}`}
+      >
+        <h2 id={`cv-${seccion.id}`}>{seccion.titulo[lang]}</h2>
+        {seccion.entradas.map((entrada) => (
+          <div class="cv-entrada">
+            <span class="anio">{entrada.anio}</span>
+            <span>{entrada.texto[lang]}</span>
+          </div>
+        ))}
+      </section>
+    ))
+  }
+
+  <script>
+    // La descarga en PDF usa el diálogo de imprimir del navegador con la
+    // hoja de estilos @media print: el CV impreso siempre está sincronizado
+    // con el de la web, sin mantener un PDF aparte.
+    document
+      .getElementById('descargar-cv')
+      ?.addEventListener('click', () => window.print());
+  </script>
+</BaseLayout>

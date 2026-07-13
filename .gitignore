@@ -1,0 +1,13 @@
+# build
+dist/
+.astro/
+
+# dependencias
+node_modules/
+
+# entorno — nunca subir secretos
+.env
+.env.production
+
+# sistema
+.DS_Store

@@ -1,0 +1,99 @@
+---
+import '../styles/global.css';
+import { perfil } from '../data/perfil';
+import { routes, useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  /** Ruta equivalente en el otro idioma, para el selector y hreflang. */
+  translatedPath: string;
+  /** Imagen Open Graph (ruta absoluta generada por Astro). Opcional. */
+  ogImage?: string;
+}
+
+const { lang, title, description, translatedPath, ogImage } = Astro.props;
+const t = useTranslations(lang);
+const otherLang: Lang = lang === 'es' ? 'en' : 'es';
+
+const currentPath = Astro.url.pathname;
+const canonical = new URL(currentPath, Astro.site);
+const alternate = new URL(translatedPath, Astro.site);
+
+const nav = [
+  { href: routes.trabajo[lang], label: t('nav.trabajo') },
+  { href: routes.videobook[lang], label: t('nav.videobook') },
+  { href: routes.sobreMi[lang], label: t('nav.sobreMi') },
+  { href: routes.cv[lang], label: t('nav.cv') },
+  { href: routes.contacto[lang], label: t('nav.contacto') },
+];
+
+function esActual(href: string): boolean {
+  return currentPath === href || currentPath === href.replace(/\/$/, '');
+}
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} · {perfil.nombre}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang={lang} href={canonical} />
+    <link rel="alternate" hreflang={otherLang} href={alternate} />
+    <meta property="og:title" content={`${title} · ${perfil.nombre}`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    {ogImage && <meta property="og:image" content={new URL(ogImage, Astro.site)} />}
+    <meta name="generator" content={Astro.generator} />
+  </head>
+  <body>
+    <header class="cabecera contenedor">
+      <div class="cabecera-fila">
+        <a class="marca" href={routes.inicio[lang]}>{perfil.nombre}</a>
+        <nav class="nav" aria-label={t('nav.inicio')}>
+          {
+            nav.map((item) => (
+              <a href={item.href} aria-current={esActual(item.href) ? 'page' : undefined}>
+                {item.label}
+              </a>
+            ))
+          }
+          <span class="selector-idioma" aria-label="Idioma / Language">
+            <a href={lang === 'es' ? currentPath : translatedPath} aria-current={lang === 'es' ? 'true' : undefined}>ES</a>
+            {' / '}
+            <a href={lang === 'en' ? currentPath : translatedPath} aria-current={lang === 'en' ? 'true' : undefined}>EN</a>
+          </span>
+        </nav>
+      </div>
+    </header>
+
+    <main class="contenedor">
+      <slot />
+    </main>
+
+    <footer class="pie">
+      <div class="contenedor">
+        <p style="margin: 0;">
+          © {new Date().getFullYear()} {perfil.nombre}. {t('footer.derechos')}
+        </p>
+        <p style="margin: 0.35rem 0 0;">
+          {t('footer.desarrollo')}
+          {
+            perfil.desarrollador.url ? (
+              <a href={perfil.desarrollador.url} target="_blank" rel="noopener">
+                {perfil.desarrollador.nombre}
+              </a>
+            ) : (
+              perfil.desarrollador.nombre
+            )
+          }.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

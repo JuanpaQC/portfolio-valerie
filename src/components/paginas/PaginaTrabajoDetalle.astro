@@ -1,0 +1,78 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { traducido } from '../../i18n/contenido';
+import { routes, trabajoUrl, useTranslations, type Lang, type UiKey } from '../../i18n/ui';
+import type { Trabajo } from '../../lib/trabajos';
+
+interface Props {
+  lang: Lang;
+  trabajo: Trabajo;
+}
+
+const { lang, trabajo } = Astro.props;
+const t = useTranslations(lang);
+const { data } = trabajo;
+
+const titulo = traducido(data, 'titulo', lang);
+const rol = traducido(data, 'rol', lang);
+const descripcion = traducido(data, 'descripcion', lang);
+const categoriaLabel = t(`categoria.${data.categoria}` as UiKey);
+---
+
+<BaseLayout
+  lang={lang}
+  title={titulo}
+  description={`${titulo} (${data.anio}) — ${rol}. ${categoriaLabel}.`}
+  translatedPath={trabajoUrl(lang === 'es' ? 'en' : 'es', trabajo.id)}
+  ogImage={data.imagen.src}
+>
+  <article class="detalle-trabajo">
+    <div>
+      <Image
+        src={data.imagen}
+        alt={traducido(data, 'alt', lang)}
+        widths={[600, 1000, 1400]}
+        sizes="(min-width: 48rem) 60vw, 100vw"
+        loading="eager"
+        style={`view-transition-name: trabajo-${trabajo.id}`}
+      />
+    </div>
+    <div>
+      <h1>{titulo}</h1>
+      <dl class="ficha-trabajo">
+        <dt>{t(`categoria.${data.categoria}` as UiKey)}</dt>
+        <dd>{data.anio}</dd>
+        <dt>{t('trabajo.rol')}</dt>
+        <dd>{rol}</dd>
+        {
+          data.director && (
+            <>
+              <dt>{t('trabajo.direccion')}</dt>
+              <dd>{data.director}</dd>
+            </>
+          )
+        }
+        {
+          data.compania && (
+            <>
+              <dt>{t('trabajo.compania')}</dt>
+              <dd>{data.compania}</dd>
+            </>
+          )
+        }
+      </dl>
+      {descripcion && <p style="margin-top: 1.5rem;">{descripcion}</p>}
+      {
+        data.video && (
+          <p>
+            <a class="boton" href={data.video} target="_blank" rel="noopener">
+              {t('trabajo.verClip')}
+            </a>
+          </p>
+        )
+      }
+      <a class="enlace-volver" href={routes.trabajo[lang]}>← {t('trabajo.volver')}</a>
+    </div>
+  </article>
+</BaseLayout>

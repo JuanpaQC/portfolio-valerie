@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { perfil } from '../../data/perfil';
+import { routes, useTranslations, type Lang } from '../../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const formEndpoint = import.meta.env.PUBLIC_FORMSPREE_ENDPOINT as string | undefined;
+const description =
+  lang === 'es'
+    ? `Contacto profesional de ${perfil.nombre}.`
+    : `Professional contact for ${perfil.nombre}.`;
+---
+
+<BaseLayout
+  lang={lang}
+  title={t('contacto.titulo')}
+  description={description}
+  translatedPath={routes.contacto[lang === 'es' ? 'en' : 'es']}
+>
+  <h1>{t('contacto.titulo')}</h1>
+
+  <ul class="lista-contacto">
+    <li>
+      {t('contacto.escribeme')}
+      <a href={`mailto:${perfil.email}`}>{perfil.email}</a>
+    </li>
+    {
+      perfil.instagram && (
+        <li>
+          <a href={perfil.instagram} target="_blank" rel="noopener">
+            Instagram
+          </a>
+        </li>
+      )
+    }
+    {
+      perfil.imdb && (
+        <li>
+          <a href={perfil.imdb} target="_blank" rel="noopener">
+            IMDb
+          </a>
+        </li>
+      )
+    }
+    {
+      perfil.agencia.nombre && (
+        <li>
+          {perfil.agencia.nombre}
+          {perfil.agencia.email && (
+            <>
+              {' — '}
+              <a href={`mailto:${perfil.agencia.email}`}>{perfil.agencia.email}</a>
+            </>
+          )}
+        </li>
+      )
+    }
+  </ul>
+
+  {
+    formEndpoint && (
+      <form class="formulario" action={formEndpoint} method="POST">
+        <label>
+          {t('contacto.nombre')}
+          <input type="text" name="name" required autocomplete="name" />
+        </label>
+        <label>
+          {t('contacto.email')}
+          <input type="email" name="email" required autocomplete="email" />
+        </label>
+        <label>
+          {t('contacto.mensaje')}
+          <textarea name="message" rows="6" required />
+        </label>
+        <div>
+          <button class="boton" type="submit">
+            {t('contacto.enviar')}
+          </button>
+        </div>
+      </form>
+    )
+  }
+</BaseLayout>
