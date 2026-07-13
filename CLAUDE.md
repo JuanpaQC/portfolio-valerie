@@ -34,9 +34,12 @@ respirar a las piezas. Minimalismo intencional, no plantilla genérica.
   para las fotos de obra.
 - **Formulario de contacto:** servicio externo sin servidor (Formspree o el de
   Netlify). El endpoint va en variable de entorno.
-- **Hosting:** Cloudflare Pages (o Netlify/Vercel). Despliegue automático en
-  cada push a `main`.
-- **Dominio:** propio (ej. `nombreartista.com`) apuntando al hosting.
+- **Hosting actual (preview):** GitHub Pages en
+  `https://juanpaqc.github.io/portfolio-valerie/`, desplegado por GitHub
+  Actions en cada push a `main` (repo `JuanpaQC/portfolio-valerie`, público).
+  El `base` del subdirectorio solo se aplica en CI (ver `astro.config.mjs`).
+- **Hosting definitivo (futuro):** Cloudflare Pages (o Netlify/Vercel) con
+  dominio propio; al migrar, quitar el condicional de `site`/`base`.
 
 ---
 
