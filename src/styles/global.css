@@ -137,6 +137,100 @@ h2 {
   color: var(--text);
 }
 
+/* ---- Navegación móvil (hamburguesa + menú popover) ---- */
+
+.nav-hamburguesa {
+  display: none;
+  background: none;
+  border: 0;
+  padding: 0.4rem;
+  margin: -0.4rem;
+  color: var(--text);
+  cursor: pointer;
+  line-height: 0;
+}
+
+@media (max-width: 47.99rem) {
+  .nav-escritorio {
+    display: none;
+  }
+
+  .nav-hamburguesa {
+    display: inline-block;
+  }
+}
+
+.menu-movil {
+  /* Ocupa toda la pantalla dentro del top layer del popover */
+  inset: 0;
+  width: 100%;
+  height: 100dvh;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  display: none;
+  flex-direction: column;
+}
+
+.menu-movil:popover-open {
+  display: flex;
+}
+
+.menu-movil-cabecera {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding-block: 1.5rem;
+  width: 100%;
+}
+
+.menu-movil-cabecera .nav-hamburguesa {
+  display: inline-block;
+  align-self: center;
+}
+
+.menu-movil-enlaces {
+  display: grid;
+  gap: 0.5rem;
+  width: 100%;
+  padding-block: 2.5rem 1rem;
+}
+
+.menu-movil-enlaces a {
+  font-family: var(--font-serif);
+  font-size: 1.75rem;
+  text-decoration: none;
+  padding-block: 0.35rem;
+  width: fit-content;
+}
+
+.menu-movil-enlaces a[aria-current='page'] {
+  border-bottom: 1px solid var(--text);
+}
+
+.menu-movil-idioma {
+  display: flex;
+  gap: 1.5rem;
+  width: 100%;
+  margin-top: auto;
+  padding-block: 2rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.menu-movil-idioma a {
+  text-decoration: none;
+  color: var(--muted);
+}
+
+.menu-movil-idioma a[aria-current='true'] {
+  color: var(--text);
+  border-bottom: 1px solid var(--text);
+}
+
 /* ---- Contenido principal ---- */
 
 main {
@@ -474,6 +568,32 @@ a,
   ::view-transition-group(*) {
     animation-duration: 0.45s;
     animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+
+  /* Apertura del menú móvil: fundido del panel… */
+  .menu-movil {
+    opacity: 0;
+    transition:
+      opacity 0.3s ease,
+      display 0.3s allow-discrete,
+      overlay 0.3s allow-discrete;
+  }
+
+  .menu-movil:popover-open {
+    opacity: 1;
+  }
+
+  @starting-style {
+    .menu-movil:popover-open {
+      opacity: 0;
+    }
+  }
+
+  /* …y sus enlaces entran escalonados en cada apertura */
+  .menu-movil-enlaces a,
+  .menu-movil-idioma {
+    animation: aparecer 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+    animation-delay: calc(0.08s + var(--revelar-orden, 0) * 0.06s);
   }
 }
 

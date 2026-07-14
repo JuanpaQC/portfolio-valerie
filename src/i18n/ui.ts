@@ -9,6 +9,8 @@ export const ui = {
     'nav.cv': 'CV',
     'nav.contacto': 'Contacto',
     'nav.inicio': 'Inicio',
+    'nav.abrirMenu': 'Abrir menú',
+    'nav.cerrarMenu': 'Cerrar menú',
 
     'categoria.teatro': 'Teatro',
     'categoria.cine': 'Cine',
@@ -47,6 +49,8 @@ export const ui = {
     'nav.cv': 'Resume',
     'nav.contacto': 'Contact',
     'nav.inicio': 'Home',
+    'nav.abrirMenu': 'Open menu',
+    'nav.cerrarMenu': 'Close menu',
 
     'categoria.teatro': 'Theatre',
     'categoria.cine': 'Film',

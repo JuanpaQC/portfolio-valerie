@@ -55,7 +55,8 @@ function esActual(href: string): boolean {
     <header class="cabecera contenedor">
       <div class="cabecera-fila">
         <a class="marca" href={routes.inicio[lang]}>{perfil.nombre}</a>
-        <nav class="nav" aria-label={t('nav.inicio')}>
+
+        <nav class="nav nav-escritorio" aria-label={t('nav.inicio')}>
           {
             nav.map((item) => (
               <a href={item.href} aria-current={esActual(item.href) ? 'page' : undefined}>
@@ -69,8 +70,51 @@ function esActual(href: string): boolean {
             <a href={lang === 'en' ? currentPath : translatedPath} aria-current={lang === 'en' ? 'true' : undefined}>EN</a>
           </span>
         </nav>
+
+        <button
+          class="nav-hamburguesa"
+          popovertarget="menu-movil"
+          aria-label={t('nav.abrirMenu')}
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 7h18M3 15h18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"></path>
+          </svg>
+        </button>
       </div>
     </header>
+
+    <div id="menu-movil" popover class="menu-movil">
+      <div class="menu-movil-cabecera contenedor">
+        <span class="marca">{perfil.nombre}</span>
+        <button
+          class="nav-hamburguesa"
+          popovertarget="menu-movil"
+          popovertargetaction="hide"
+          aria-label={t('nav.cerrarMenu')}
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"></path>
+          </svg>
+        </button>
+      </div>
+      <nav class="menu-movil-enlaces contenedor" aria-label={t('nav.inicio')}>
+        {
+          nav.map((item, indice) => (
+            <a
+              href={item.href}
+              style={`--revelar-orden: ${indice}`}
+              aria-current={esActual(item.href) ? 'page' : undefined}
+            >
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+      <div class="menu-movil-idioma contenedor" style={`--revelar-orden: ${nav.length}`}>
+        <a href={lang === 'es' ? currentPath : translatedPath} aria-current={lang === 'es' ? 'true' : undefined}>Español</a>
+        <a href={lang === 'en' ? currentPath : translatedPath} aria-current={lang === 'en' ? 'true' : undefined}>English</a>
+      </div>
+    </div>
 
     <main class="contenedor">
       <slot />

@@ -41,7 +41,7 @@ const description =
     <div class="portada-texto">
       <h1>{perfil.nombre}</h1>
       <p class="portada-profesion">{perfil.profesion[lang]}</p>
-      <p class="portada-frase">{perfil.frase[lang]}</p>
+      {perfil.frase[lang] && <p class="portada-frase">{perfil.frase[lang]}</p>}
       <p style="margin-top: 2.5rem;">
         <a class="boton" href={routes.trabajo[lang]}>{t('nav.trabajo')}</a>
       </p>
