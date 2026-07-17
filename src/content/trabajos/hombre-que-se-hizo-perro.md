@@ -9,6 +9,8 @@ anio: 2024
 imagenes:
   - src: ../../assets/trabajos/Hombre-Perro.jpeg
     alt: Valerie en escena en El Hombre que se Convirtió en Perro
+    alt_en: Valerie on stage in The Man Who Turned into a Dog
 descripcion: 'Esta obra fue adaptada a los sucesos políticos costarricenses alrededor de los años 2023-2024 abordando temas respecto a derechos laborales, proyectos de ley, derechos individuales y abuso de poder. Esta obra fue presentada en el Festival Interuniversitario Centroamericano de la Cultura y el Arte (FICCUA).'
+descripcion_en: 'This play was adapted to the Costa Rican political events of 2023–2024, addressing labour rights, legislative bills, individual rights and abuse of power. It was performed at the Central American Inter-university Festival of Culture and the Arts (FICCUA).'
 orden: 4
 ---
