@@ -18,9 +18,10 @@ export const ui = {
     'categoria.cortometraje': 'Cortometrajes',
     'categoria.publicidad': 'Publicidad',
 
+    'trabajo.estreno': 'Estreno',
     'trabajo.rol': 'Papel',
     'trabajo.direccion': 'Dirección',
-    'trabajo.compania': 'Compañía / Producción',
+    'trabajo.compania': 'Producción',
     'trabajo.verClip': 'Ver clip',
 
     'carrusel.anterior': 'Foto anterior',
@@ -49,9 +50,10 @@ export const ui = {
     'categoria.cortometraje': 'Short films',
     'categoria.publicidad': 'Commercials',
 
+    'trabajo.estreno': 'Premiere',
     'trabajo.rol': 'Role',
     'trabajo.direccion': 'Directed by',
-    'trabajo.compania': 'Company / Production',
+    'trabajo.compania': 'Production',
     'trabajo.verClip': 'Watch clip',
 
     'carrusel.anterior': 'Previous photo',

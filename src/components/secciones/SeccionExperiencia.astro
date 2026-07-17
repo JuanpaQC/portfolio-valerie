@@ -34,7 +34,7 @@ const grupos = await trabajosPorCategoria();
             <div class="obra-info">
               <h4>{traducido(trabajo.data, 'titulo', lang)}</h4>
               <dl class="ficha-trabajo">
-                <dt>{t(`categoria.${categoria}` as UiKey)}</dt>
+                <dt>{t('trabajo.estreno')}</dt>
                 <dd>{trabajo.data.anio}</dd>
                 <dt>{t('trabajo.rol')}</dt>
                 <dd>{traducido(trabajo.data, 'rol', lang)}</dd>
