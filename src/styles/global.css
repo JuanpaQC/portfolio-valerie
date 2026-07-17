@@ -443,14 +443,19 @@ main {
 
 .publicacion {
   display: grid;
-  gap: 1.25rem;
-  max-width: 46rem;
+  gap: 1.5rem;
 }
 
 @media (min-width: 48rem) {
   .publicacion:has(.publicacion-imagen) {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    grid-template-columns: minmax(0, 5fr) minmax(0, 4fr);
+    gap: 2.5rem;
     align-items: start;
+  }
+
+  /* Sin foto, el texto no se estira de lado a lado */
+  .publicacion:not(:has(.publicacion-imagen)) {
+    max-width: 46rem;
   }
 }
 
