@@ -38,6 +38,12 @@ const grupos = await trabajosPorCategoria();
                 <dd>{trabajo.data.anio}</dd>
                 <dt>{t('trabajo.rol')}</dt>
                 <dd>{traducido(trabajo.data, 'rol', lang)}</dd>
+                {trabajo.data.director && (
+                  <>
+                    <dt>{t('trabajo.direccion')}</dt>
+                    <dd>{trabajo.data.director}</dd>
+                  </>
+                )}
                 {trabajo.data.compania && (
                   <>
                     <dt>{t('trabajo.compania')}</dt>
