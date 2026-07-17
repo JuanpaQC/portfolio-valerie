@@ -1,0 +1,51 @@
+---
+import { Image } from 'astro:assets';
+import { perfil } from '../../data/perfil';
+import { useTranslations, type Lang } from '../../i18n/ui';
+import retrato from '../../assets/Vale-Profile-Picture.jpeg';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section id="sobre-mi" class="seccion" aria-labelledby="titulo-sobre-mi">
+  <div class="sobre-mi">
+    <div class="revelar">
+      <Image
+        src={retrato}
+        alt={
+          lang === 'es'
+            ? `Retrato de ${perfil.nombre}`
+            : `Portrait of ${perfil.nombre}`
+        }
+        widths={[450, 900]}
+        sizes="(min-width: 48rem) 40vw, 100vw"
+        loading="eager"
+      />
+    </div>
+    <div class="revelar" style="--revelar-orden: 1">
+      <h1 id="titulo-sobre-mi">{perfil.nombre}</h1>
+      <p class="portada-profesion">{perfil.profesion[lang]}</p>
+      {perfil.statement[lang].map((parrafo) => <p>{parrafo}</p>)}
+      <p class="intro-pagina">{perfil.bio[lang]}</p>
+      <p class="sobre-mi-contacto">
+        {t('contacto.escribeme')}
+        <a href={`mailto:${perfil.email}`}>{perfil.email}</a>
+        {
+          perfil.instagram && (
+            <>
+              {' · '}
+              <a href={perfil.instagram} target="_blank" rel="noopener">
+                Instagram
+              </a>
+            </>
+          )
+        }
+      </p>
+    </div>
+  </div>
+</section>

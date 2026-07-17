@@ -1,0 +1,70 @@
+---
+import CarruselImagenes from './CarruselImagenes.astro';
+import { trabajosPorCategoria } from '../../lib/trabajos';
+import { traducido } from '../../i18n/contenido';
+import { useTranslations, type Lang, type UiKey } from '../../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const grupos = await trabajosPorCategoria();
+---
+
+<section id="experiencia" class="seccion" aria-labelledby="titulo-experiencia">
+  <h2 id="titulo-experiencia" class="seccion-titulo">{t('seccion.experiencia')}</h2>
+
+  {
+    [...grupos.entries()].map(([categoria, trabajos]) => (
+      <div class="grupo-categoria" aria-labelledby={`cat-${categoria}`}>
+        <h3 id={`cat-${categoria}`} class="grupo-titulo">
+          {t(`categoria.${categoria}` as UiKey)}
+        </h3>
+        {trabajos.map((trabajo) => (
+          <article class="obra">
+            <CarruselImagenes
+              lang={lang}
+              fotos={trabajo.data.imagenes.map((foto) => ({
+                src: foto.src,
+                alt: lang === 'en' && foto.alt_en ? foto.alt_en : foto.alt,
+              }))}
+            />
+            <div class="obra-info">
+              <h4>{traducido(trabajo.data, 'titulo', lang)}</h4>
+              <dl class="ficha-trabajo">
+                <dt>{t(`categoria.${categoria}` as UiKey)}</dt>
+                <dd>{trabajo.data.anio}</dd>
+                <dt>{t('trabajo.rol')}</dt>
+                <dd>{traducido(trabajo.data, 'rol', lang)}</dd>
+                {trabajo.data.director && (
+                  <>
+                    <dt>{t('trabajo.direccion')}</dt>
+                    <dd>{trabajo.data.director}</dd>
+                  </>
+                )}
+                {trabajo.data.compania && (
+                  <>
+                    <dt>{t('trabajo.compania')}</dt>
+                    <dd>{trabajo.data.compania}</dd>
+                  </>
+                )}
+              </dl>
+              {traducido(trabajo.data, 'descripcion', lang) && (
+                <p class="obra-descripcion">{traducido(trabajo.data, 'descripcion', lang)}</p>
+              )}
+              {trabajo.data.video && (
+                <p>
+                  <a class="boton" href={trabajo.data.video} target="_blank" rel="noopener">
+                    {t('trabajo.verClip')}
+                  </a>
+                </p>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    ))
+  }
+</section>

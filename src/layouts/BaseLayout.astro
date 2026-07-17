@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css';
 import { perfil } from '../data/perfil';
-import { routes, useTranslations, type Lang } from '../i18n/ui';
+import { routes, secciones, useTranslations, type Lang } from '../i18n/ui';
 
 interface Props {
   lang: Lang;
@@ -21,17 +21,11 @@ const currentPath = Astro.url.pathname;
 const canonical = new URL(currentPath, Astro.site);
 const alternate = new URL(translatedPath, Astro.site);
 
-const nav = [
-  { href: routes.trabajo[lang], label: t('nav.trabajo') },
-  { href: routes.videobook[lang], label: t('nav.videobook') },
-  { href: routes.sobreMi[lang], label: t('nav.sobreMi') },
-  { href: routes.cv[lang], label: t('nav.cv') },
-  { href: routes.contacto[lang], label: t('nav.contacto') },
-];
-
-function esActual(href: string): boolean {
-  return currentPath === href || currentPath === href.replace(/\/$/, '');
-}
+// El sitio es una sola página: la navegación son anclas a las secciones.
+const nav = secciones.map((seccion) => ({
+  href: `#${seccion.id}`,
+  label: t(seccion.clave),
+}));
 ---
 
 <!doctype html>
@@ -57,13 +51,7 @@ function esActual(href: string): boolean {
         <a class="marca" href={routes.inicio[lang]}>{perfil.nombre}</a>
 
         <nav class="nav nav-escritorio" aria-label={t('nav.inicio')}>
-          {
-            nav.map((item) => (
-              <a href={item.href} aria-current={esActual(item.href) ? 'page' : undefined}>
-                {item.label}
-              </a>
-            ))
-          }
+          {nav.map((item) => <a href={item.href}>{item.label}</a>)}
           <span class="selector-idioma" aria-label="Idioma / Language">
             <a href={lang === 'es' ? currentPath : translatedPath} aria-current={lang === 'es' ? 'true' : undefined}>ES</a>
             {' / '}
@@ -100,11 +88,7 @@ function esActual(href: string): boolean {
       <nav class="menu-movil-enlaces contenedor" aria-label={t('nav.inicio')}>
         {
           nav.map((item, indice) => (
-            <a
-              href={item.href}
-              style={`--revelar-orden: ${indice}`}
-              aria-current={esActual(item.href) ? 'page' : undefined}
-            >
+            <a href={item.href} style={`--revelar-orden: ${indice}`}>
               {item.label}
             </a>
           ))
@@ -139,5 +123,16 @@ function esActual(href: string): boolean {
         </p>
       </div>
     </footer>
+
+    <script>
+      // Al elegir una sección en el menú móvil (anclas en la misma página),
+      // el popover no se cierra solo: lo cerramos al hacer clic en un enlace.
+      const menu = document.getElementById('menu-movil');
+      menu?.addEventListener('click', (evento) => {
+        if ((evento.target as Element).closest('a')) {
+          (menu as HTMLElement & { hidePopover(): void }).hidePopover();
+        }
+      });
+    </script>
   </body>
 </html>

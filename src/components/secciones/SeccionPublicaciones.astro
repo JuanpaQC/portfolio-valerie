@@ -1,0 +1,66 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import { traducido } from '../../i18n/contenido';
+import { useTranslations, type Lang } from '../../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const publicaciones = (await getCollection('publicaciones')).sort(
+  (a, b) => b.data.fecha.getTime() - a.data.fecha.getTime(),
+);
+
+function formatearFecha(fecha: Date): string {
+  return fecha.toLocaleDateString(lang === 'es' ? 'es-CR' : 'en-US', {
+    year: 'numeric',
+    month: 'long',
+    timeZone: 'UTC', // la fecha del frontmatter se parsea en UTC
+  });
+}
+---
+
+{
+  publicaciones.length > 0 && (
+    <section id="publicaciones" class="seccion" aria-labelledby="titulo-publicaciones">
+      <h2 id="titulo-publicaciones" class="seccion-titulo">
+        {t('seccion.publicaciones')}
+      </h2>
+      <div class="publicaciones-lista">
+        {publicaciones.map((publicacion) => (
+          <article class="publicacion">
+            {publicacion.data.imagen && (
+              <div class="publicacion-imagen">
+                <Image
+                  src={publicacion.data.imagen}
+                  alt={traducido(publicacion.data, 'alt', lang)}
+                  widths={[400, 700]}
+                  sizes="(min-width: 48rem) 30vw, 100vw"
+                  loading="lazy"
+                />
+              </div>
+            )}
+            <div>
+              <p class="publicacion-meta">
+                {publicacion.data.fuente} · {formatearFecha(publicacion.data.fecha)}
+              </p>
+              <h3>{traducido(publicacion.data, 'titulo', lang)}</h3>
+              {traducido(publicacion.data, 'resumen', lang) && (
+                <p>{traducido(publicacion.data, 'resumen', lang)}</p>
+              )}
+              {publicacion.data.url && (
+                <a href={publicacion.data.url} target="_blank" rel="noopener">
+                  {t('publicaciones.leer')} →
+                </a>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  )
+}

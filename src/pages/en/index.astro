@@ -1,5 +1,23 @@
 ---
-import PaginaInicio from '../../components/paginas/PaginaInicio.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SeccionSobreMi from '../../components/secciones/SeccionSobreMi.astro';
+import SeccionExperiencia from '../../components/secciones/SeccionExperiencia.astro';
+import SeccionBook from '../../components/secciones/SeccionBook.astro';
+import SeccionPublicaciones from '../../components/secciones/SeccionPublicaciones.astro';
+import { perfil } from '../../data/perfil';
+import { routes } from '../../i18n/ui';
+import retrato from '../../assets/Vale-Profile-Picture.jpeg';
 ---
 
-<PaginaInicio lang="en" />
+<BaseLayout
+  lang="en"
+  title={perfil.profesion.en}
+  description={`${perfil.nombre}, actress. Theatre, short films, photo book and press.`}
+  translatedPath={routes.inicio.es}
+  ogImage={retrato.src}
+>
+  <SeccionSobreMi lang="en" />
+  <SeccionExperiencia lang="en" />
+  <SeccionBook lang="en" />
+  <SeccionPublicaciones lang="en" />
+</BaseLayout>

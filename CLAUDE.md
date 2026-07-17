@@ -43,27 +43,28 @@ respirar a las piezas. Minimalismo intencional, no plantilla genérica.
 
 ---
 
-## Arquitectura de páginas
+## Arquitectura: página única (one-page)
 
-Rutas en español (por defecto) con equivalente en inglés bajo `/en/`:
+El sitio es **una sola página por idioma** (`/` en español, `/en/` en inglés).
+La navegación son anclas que hacen scroll suave a cada sección, en este orden:
 
-- `/` · `/en/`                       → Inicio: una imagen potente, nombre, una frase.
-- `/trabajo` · `/en/work`            → Galería agrupada por CATEGORÍAS (teatro,
-                                       cine, televisión, cortometraje, publicidad).
-- `/trabajo/[slug]` · `/en/work/…`   → Detalle de cada proyecto con su ficha.
-- `/videobook` · `/en/showreel`      → Vídeo embebido (URL en variable de entorno).
-- `/sobre-mi` · `/en/about`          → Foto, statement y bio corta.
-- `/cv` · `/en/resume`               → CV formal + botón de descarga en PDF.
-- `/contacto` · `/en/contact`        → Correo, redes, representación y formulario.
+1. `#sobre-mi`      → Bio: foto, statement, bio corta y contacto.
+2. `#experiencia`   → Obras agrupadas por categoría (teatro, cortometrajes…).
+                      Cada obra muestra un CARRUSEL con varias fotos
+                      (scroll-snap + flechas) y su ficha.
+3. `#book`          → Book fotográfico (rejilla de fotos, `src/data/book.ts`).
+4. `#publicaciones` → Notas de prensa / posts donde aparece Valerie
+                      (colección `publicaciones`).
 
-Las páginas de ambos idiomas comparten maquetación: cada ruta es un envoltorio
-fino sobre los componentes de `src/components/paginas/`, parametrizados por
-`lang`. Textos de interfaz en `src/i18n/ui.ts`; datos personales y CV en
-`src/data/`.
+Los ids de sección son los mismos en ambos idiomas; las etiquetas del nav se
+traducen en `src/i18n/ui.ts` (constante `secciones`). Las secciones viven en
+`src/components/secciones/` parametrizadas por `lang`. En móvil el nav es un
+menú hamburguesa a pantalla completa (Popover API, sin JS salvo el cierre al
+elegir ancla). Cabecera sticky; las anclas compensan su altura con
+`scroll-margin-top`.
 
-Generar las páginas de trabajo dinámicamente desde las Content Collections:
-añadir un proyecto nuevo debe ser crear un archivo Markdown + su imagen y hacer
-push, sin tocar el diseño.
+Añadir una obra o publicación debe ser crear un archivo Markdown + su imagen
+y hacer push, sin tocar el diseño.
 
 ---
 
@@ -79,12 +80,22 @@ rol / rol_en:                  string   # personaje o papel
 director:                      string (opcional)
 compania:                      string (opcional)  # compañía o productora
 anio:                          number
-imagen:                        ruta a la imagen (src/assets/trabajos/)
-alt / alt_en:                  string   # accesibilidad, obligatorio
+imagenes:                      lista de fotos para el carrusel (mínimo 1):
+  - src:                       ruta a la imagen (src/assets/trabajos/)
+    alt / alt_en:              string   # accesibilidad, obligatorio
 video:                         URL (opcional, clip o tráiler)
 descripcion / descripcion_en:  string (opcional)
-destacado:                     boolean (opcional)
 orden:                         number (opcional, dentro de la categoría)
+```
+
+### Colección `publicaciones` (cada archivo = una nota o post)
+```
+titulo / titulo_en:            string
+fecha:                         YYYY-MM-DD
+fuente:                        string   # quién lo publicó (p.ej. "Tecnológico de Costa Rica")
+url:                           URL (opcional, enlace a la nota)
+imagen + alt / alt_en:         opcional
+resumen / resumen_en:          string (opcional)
 ```
 
 ### CV formal — orden estándar para actriz

@@ -1,6 +1,8 @@
 /* ------------------------------------------------------------------
    Estilos globales — minimalismo intencional: la obra (y la actriz)
    mandan; la interfaz desaparece. Mobile-first.
+
+   El sitio es una sola página con secciones; el nav hace scroll.
 ------------------------------------------------------------------- */
 
 :root {
@@ -9,6 +11,7 @@
   --muted: #6f6a64;
   --line: #e4e1dc;
   --max-width: 68rem;
+  --alto-cabecera: 4.5rem;
   --font-serif: 'Iowan Old Style', 'Palatino', Georgia, 'Times New Roman', serif;
   --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
     Arial, sans-serif;
@@ -22,6 +25,12 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 body {
@@ -48,7 +57,8 @@ a {
 
 h1,
 h2,
-h3 {
+h3,
+h4 {
   font-family: var(--font-serif);
   font-weight: 400;
   line-height: 1.2;
@@ -60,7 +70,11 @@ h1 {
 }
 
 h2 {
-  font-size: clamp(1.4rem, 3.5vw, 1.8rem);
+  font-size: clamp(1.5rem, 4vw, 2rem);
+}
+
+h3 {
+  font-size: clamp(1.2rem, 3vw, 1.5rem);
 }
 
 /* Enfoque visible para navegación por teclado */
@@ -75,18 +89,23 @@ h2 {
   padding-inline: 1.25rem;
 }
 
-/* ---- Cabecera y navegación ---- */
+/* ---- Cabecera fija y navegación ---- */
 
 .cabecera {
-  padding-block: 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
 }
 
 .cabecera-fila {
   display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
-  gap: 0.75rem 1.5rem;
+  gap: 1.5rem;
+  min-height: var(--alto-cabecera);
 }
 
 .marca {
@@ -114,11 +133,6 @@ h2 {
 
 .nav a:hover {
   color: var(--text);
-}
-
-.nav a[aria-current='page'] {
-  color: var(--text);
-  border-bottom: 1px solid var(--text);
 }
 
 .selector-idioma {
@@ -180,15 +194,14 @@ h2 {
 
 .menu-movil-cabecera {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
-  padding-block: 1.5rem;
+  min-height: var(--alto-cabecera);
   width: 100%;
 }
 
 .menu-movil-cabecera .nav-hamburguesa {
   display: inline-block;
-  align-self: center;
 }
 
 .menu-movil-enlaces {
@@ -204,10 +217,6 @@ h2 {
   text-decoration: none;
   padding-block: 0.35rem;
   width: fit-content;
-}
-
-.menu-movil-enlaces a[aria-current='page'] {
-  border-bottom: 1px solid var(--text);
 }
 
 .menu-movil-idioma {
@@ -231,34 +240,29 @@ h2 {
   border-bottom: 1px solid var(--text);
 }
 
-/* ---- Contenido principal ---- */
+/* ---- Secciones de la página única ---- */
 
 main {
   min-height: 60vh;
-  padding-block: 2rem 4rem;
+}
+
+.seccion {
+  padding-block: 3.5rem;
+  /* Que el ancla no quede oculta bajo la cabecera fija */
+  scroll-margin-top: calc(var(--alto-cabecera) + 0.5rem);
+}
+
+.seccion + .seccion {
+  border-top: 1px solid var(--line);
+}
+
+.seccion-titulo {
+  margin-bottom: 2rem;
 }
 
 .intro-pagina {
   max-width: 42rem;
   color: var(--muted);
-}
-
-/* ---- Portada ---- */
-
-.portada {
-  display: grid;
-  gap: 2rem;
-  align-items: center;
-  padding-block: 1rem 3rem;
-}
-
-.portada-imagen img {
-  width: 100%;
-  height: auto;
-}
-
-.portada-texto h1 {
-  margin-bottom: 0.2em;
 }
 
 .portada-profesion {
@@ -269,79 +273,64 @@ main {
   margin: 0 0 1.5rem;
 }
 
-.portada-frase {
-  font-family: var(--font-serif);
-  font-size: clamp(1.1rem, 2.5vw, 1.35rem);
-  font-style: italic;
-  color: var(--muted);
-  max-width: 26em;
-  margin: 0;
+/* ---- Sobre mí ---- */
+
+.sobre-mi {
+  display: grid;
+  gap: 2.5rem;
 }
 
 @media (min-width: 48rem) {
-  .portada {
-    grid-template-columns: 3fr 2fr;
-    gap: 3.5rem;
+  .sobre-mi {
+    grid-template-columns: 2fr 3fr;
+    align-items: start;
   }
 }
 
-/* ---- Galería de trabajos ---- */
-
-.grupo-categoria {
-  margin-block: 3rem;
-}
-
-.grupo-categoria h2 {
-  border-bottom: 1px solid var(--line);
-  padding-bottom: 0.4rem;
-  margin-bottom: 1.5rem;
-}
-
-.rejilla-trabajos {
-  display: grid;
-  gap: 2rem 1.5rem;
-  grid-template-columns: 1fr;
-}
-
-@media (min-width: 34rem) {
-  .rejilla-trabajos {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 56rem) {
-  .rejilla-trabajos {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-.tarjeta-trabajo a {
-  text-decoration: none;
-  display: block;
-}
-
-.tarjeta-trabajo img {
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-  width: 100%;
-}
-
-.tarjeta-trabajo h3 {
-  font-size: 1.1rem;
-  margin: 0.75rem 0 0.1rem;
-}
-
-.tarjeta-trabajo p {
-  margin: 0;
-  font-size: 0.85rem;
+.sobre-mi-contacto {
+  margin-top: 2rem;
+  font-size: 0.9rem;
   color: var(--muted);
 }
 
-/* ---- Detalle de trabajo ---- */
+/* ---- Experiencia: obras con carrusel ---- */
 
-.detalle-trabajo {
+.grupo-categoria {
+  margin-block: 1rem 3rem;
+}
+
+.grupo-titulo {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 0.4rem;
+  margin-bottom: 2rem;
+  color: var(--muted);
+  font-size: 1.1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.obra {
   display: grid;
-  gap: 2rem;
+  gap: 1.5rem;
+  margin-bottom: 3.5rem;
+}
+
+@media (min-width: 48rem) {
+  .obra {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 4fr);
+    gap: 2.5rem;
+    align-items: start;
+  }
+}
+
+.obra-info h4 {
+  font-size: clamp(1.25rem, 3vw, 1.6rem);
+  margin-bottom: 0.8em;
+}
+
+.obra-descripcion {
+  margin-top: 1.25rem;
+  font-size: 0.95rem;
 }
 
 .ficha-trabajo {
@@ -364,58 +353,126 @@ main {
   margin: 0;
 }
 
-@media (min-width: 48rem) {
-  .detalle-trabajo {
-    grid-template-columns: 3fr 2fr;
-    align-items: start;
+/* ---- Carrusel de fotos ---- */
+
+.carrusel {
+  position: relative;
+}
+
+.carrusel-pista {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none; /* la navegación es con flechas o deslizando */
+}
+
+.carrusel-pista::-webkit-scrollbar {
+  display: none;
+}
+
+.carrusel-item {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+}
+
+.carrusel-item img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.carrusel-flecha {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 0;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.carrusel-flecha:hover {
+  background: var(--bg);
+}
+
+.carrusel-flecha.anterior {
+  left: 0.75rem;
+}
+
+.carrusel-flecha.siguiente {
+  right: 0.75rem;
+}
+
+/* ---- Book fotográfico ---- */
+
+.book-rejilla {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 34rem) {
+  .book-rejilla {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
-.enlace-volver {
-  display: inline-block;
-  margin-top: 2.5rem;
-  font-size: 0.8rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--muted);
+@media (min-width: 56rem) {
+  .book-rejilla {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
-/* ---- Sobre mí ---- */
+.book-foto img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
 
-.sobre-mi {
+/* ---- Publicaciones ---- */
+
+.publicaciones-lista {
   display: grid;
   gap: 2.5rem;
 }
 
+.publicacion {
+  display: grid;
+  gap: 1.25rem;
+  max-width: 46rem;
+}
+
 @media (min-width: 48rem) {
-  .sobre-mi {
-    grid-template-columns: 2fr 3fr;
+  .publicacion:has(.publicacion-imagen) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
     align-items: start;
   }
 }
 
-/* ---- CV ---- */
-
-.cv-seccion {
-  margin-block: 2.5rem;
+.publicacion-imagen img {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
 }
 
-.cv-seccion h2 {
-  border-bottom: 1px solid var(--line);
-  padding-bottom: 0.4rem;
-}
-
-.cv-entrada {
-  display: grid;
-  grid-template-columns: 6rem 1fr;
-  gap: 1rem;
-  padding-block: 0.4rem;
-}
-
-.cv-entrada .anio {
+.publicacion-meta {
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   color: var(--muted);
-  font-variant-numeric: tabular-nums;
+  margin: 0 0 0.4rem;
 }
+
+.publicacion h3 {
+  margin-bottom: 0.4em;
+}
+
+/* ---- Botón ---- */
 
 .boton {
   display: inline-block;
@@ -436,61 +493,6 @@ main {
   color: var(--bg);
 }
 
-/* ---- Videobook ---- */
-
-.marco-video {
-  aspect-ratio: 16 / 9;
-  width: 100%;
-  background: #111;
-}
-
-.marco-video iframe {
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-
-/* ---- Contacto ---- */
-
-.formulario {
-  display: grid;
-  gap: 1.25rem;
-  max-width: 34rem;
-  margin-top: 2rem;
-}
-
-.formulario label {
-  display: grid;
-  gap: 0.4rem;
-  font-size: 0.8rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.formulario input,
-.formulario textarea {
-  font: inherit;
-  color: var(--text);
-  background: transparent;
-  border: 1px solid var(--line);
-  padding: 0.65em 0.8em;
-  border-radius: 0;
-}
-
-.formulario input:focus,
-.formulario textarea:focus {
-  border-color: var(--text);
-  outline: none;
-}
-
-.lista-contacto {
-  list-style: none;
-  padding: 0;
-  display: grid;
-  gap: 0.5rem;
-}
-
 /* ------------------------------------------------------------------
    Animaciones — sutiles y estratégicas. Todo queda desactivado si el
    usuario tiene "reducir movimiento" activado en su sistema.
@@ -498,34 +500,18 @@ main {
 
 /* Micro-transiciones (imperceptibles como animación, dan tacto) */
 a,
-.boton {
+.boton,
+.carrusel-flecha {
   transition: color 0.2s ease, background-color 0.25s ease,
     border-color 0.25s ease;
 }
 
-.tarjeta-media {
-  overflow: hidden;
-}
-
-.tarjeta-trabajo img {
-  transition: transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
-}
-
-@media (hover: hover) {
-  .tarjeta-trabajo a:hover img,
-  .tarjeta-trabajo a:focus-visible img {
-    transform: scale(1.03);
-  }
-}
-
 @media (prefers-reduced-motion: no-preference) {
-  /* Fundido entre páginas (view transitions CSS, sin JS;
-     los navegadores sin soporte lo ignoran) */
+  /* Fundido entre páginas (cambio de idioma) */
   @view-transition {
     navigation: auto;
   }
 
-  /* Aparición al cargar la página */
   @keyframes aparecer {
     from {
       opacity: 0;
@@ -537,37 +523,11 @@ a,
     }
   }
 
-  main > h1 {
-    animation: aparecer 0.6s cubic-bezier(0.22, 0.61, 0.36, 1) both;
-  }
-
-  .portada-imagen {
-    animation: aparecer 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) both;
-  }
-
-  .portada-texto h1 {
-    animation: aparecer 0.6s cubic-bezier(0.22, 0.61, 0.36, 1) 0.15s both;
-  }
-
-  .portada-profesion {
-    animation: aparecer 0.6s cubic-bezier(0.22, 0.61, 0.36, 1) 0.25s both;
-  }
-
-  .portada-frase,
-  .portada-texto .boton {
-    animation: aparecer 0.6s cubic-bezier(0.22, 0.61, 0.36, 1) 0.35s both;
-  }
-
-  /* Solo la columna de texto: la imagen llega con la view transition
-     desde la tarjeta de la galería y no debe partir de opacidad 0. */
-  .detalle-trabajo > div:last-child {
-    animation: aparecer 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) 0.1s both;
-  }
-
-  /* Timing del morph de imagen entre galería y detalle */
-  ::view-transition-group(*) {
-    animation-duration: 0.45s;
-    animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+  /* Aparición escalonada al cargar: cada elemento .revelar entra con un
+     retardo según su posición (--revelar-orden, puesto inline en el HTML). */
+  .revelar {
+    animation: aparecer 0.65s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+    animation-delay: calc(0.15s + var(--revelar-orden, 0) * 0.09s);
   }
 
   /* Apertura del menú móvil: fundido del panel… */
@@ -597,15 +557,6 @@ a,
   }
 }
 
-/* Aparición escalonada al cargar: cada elemento .revelar entra con un
-   retardo según su posición (--revelar-orden, puesto inline en el HTML). */
-@media (prefers-reduced-motion: no-preference) {
-  .revelar {
-    animation: aparecer 0.65s cubic-bezier(0.22, 0.61, 0.36, 1) both;
-    animation-delay: calc(0.15s + var(--revelar-orden, 0) * 0.09s);
-  }
-}
-
 /* ---- Pie ---- */
 
 .pie {
@@ -615,11 +566,12 @@ a,
   color: var(--muted);
 }
 
-/* ---- Impresión (CV en PDF vía imprimir) ---- */
+/* ---- Impresión ---- */
 
 @media print {
   .cabecera,
   .pie,
+  .carrusel-flecha,
   .no-imprimir {
     display: none !important;
   }

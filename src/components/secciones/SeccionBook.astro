@@ -1,0 +1,35 @@
+---
+import { Image } from 'astro:assets';
+import { book } from '../../data/book';
+import { useTranslations, type Lang } from '../../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+{
+  book.length > 0 && (
+    <section id="book" class="seccion" aria-labelledby="titulo-book">
+      <h2 id="titulo-book" class="seccion-titulo">
+        {t('seccion.book')}
+      </h2>
+      <div class="book-rejilla">
+        {book.map((foto) => (
+          <div class="book-foto">
+            <Image
+              src={foto.imagen}
+              alt={foto.alt[lang]}
+              widths={[400, 700, 1000]}
+              sizes="(min-width: 56rem) 33vw, (min-width: 34rem) 50vw, 100vw"
+              loading="lazy"
+            />
+          </div>
+        ))}
+      </div>
+    </section>
+  )
+}

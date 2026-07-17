@@ -1,0 +1,68 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { useTranslations, type Lang } from '../../i18n/ui';
+
+interface Foto {
+  src: ImageMetadata;
+  alt: string;
+}
+
+interface Props {
+  lang: Lang;
+  fotos: Foto[];
+}
+
+const { lang, fotos } = Astro.props;
+const t = useTranslations(lang);
+const multiple = fotos.length > 1;
+---
+
+<div class="carrusel">
+  <div class="carrusel-pista" tabindex={multiple ? 0 : undefined}>
+    {
+      fotos.map((foto) => (
+        <div class="carrusel-item">
+          <Image
+            src={foto.src}
+            alt={foto.alt}
+            widths={[480, 800, 1200]}
+            sizes="(min-width: 48rem) 50vw, 100vw"
+            loading="lazy"
+          />
+        </div>
+      ))
+    }
+  </div>
+  {
+    multiple && (
+      <>
+        <button class="carrusel-flecha anterior" data-carrusel="-1" aria-label={t('carrusel.anterior')}>
+          <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">
+            <path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" />
+          </svg>
+        </button>
+        <button class="carrusel-flecha siguiente" data-carrusel="1" aria-label={t('carrusel.siguiente')}>
+          <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">
+            <path d="M7.5 4l6 6-6 6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" />
+          </svg>
+        </button>
+      </>
+    )
+  }
+</div>
+
+<script>
+  // Flechas del carrusel: desplazan la pista una foto. El deslizamiento
+  // táctil y con rueda funciona sin JS gracias a scroll-snap.
+  document.addEventListener('click', (evento) => {
+    const boton = (evento.target as Element).closest<HTMLElement>('[data-carrusel]');
+    if (!boton) return;
+    const pista = boton.closest('.carrusel')?.querySelector('.carrusel-pista');
+    if (!pista) return;
+    pista.scrollBy({
+      left: Number(boton.dataset.carrusel) * pista.clientWidth,
+      behavior: 'smooth',
+    });
+  });
+</script>
