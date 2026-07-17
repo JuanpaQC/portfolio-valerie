@@ -10,7 +10,7 @@ imagenes:
     alt: Cartel del cortometraje Folklore
     alt_en: Poster of the short film Folklore
 # Pega el link de YouTube y quita el "# " para activar el botón "Ver corto":
-# video: https://www.youtube.com/watch?v=XXXXX
+video: https://www.youtube.com/watch?v=qsB-R-AHvs0
 descripcion: '[PENDIENTE] Sinopsis breve; festivales si los hubo.'
 orden: 1
 ---
