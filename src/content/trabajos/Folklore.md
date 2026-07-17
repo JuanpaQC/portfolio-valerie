@@ -1,10 +1,10 @@
 ---
-titulo: '[PENDIENTE] Título del cortometraje'
+titulo: 'FOLKLORE'
 categoria: cortometraje
-rol: '[PENDIENTE] Personaje'
-director: '[PENDIENTE] Nombre Apellido'
-compania: '[PENDIENTE] Productora / escuela'
-anio: 2024
+rol: 'Luna'
+director: 'Anthony Arias'
+compania: 'NTVA Producciones'
+anio: 2025
 imagenes:
   - src: ../../assets/trabajos/trabajo-1.png
     alt: Fotograma del cortometraje con Valerie

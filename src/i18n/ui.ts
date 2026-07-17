@@ -15,7 +15,7 @@ export const ui = {
     'categoria.teatro': 'Teatro',
     'categoria.cine': 'Cine',
     'categoria.television': 'Televisión',
-    'categoria.cortometraje': 'Cortometrajes',
+    'categoria.cortometraje': 'Cortometraje',
     'categoria.publicidad': 'Publicidad',
 
     'trabajo.estreno': 'Estreno',
