@@ -23,6 +23,7 @@ export const ui = {
     'trabajo.direccion': 'Dirección',
     'trabajo.compania': 'Producción',
     'trabajo.verClip': 'Ver clip',
+    'trabajo.verCorto': 'Ver corto',
 
     'carrusel.anterior': 'Foto anterior',
     'carrusel.siguiente': 'Foto siguiente',
@@ -55,6 +56,7 @@ export const ui = {
     'trabajo.direccion': 'Directed by',
     'trabajo.compania': 'Production',
     'trabajo.verClip': 'Watch clip',
+    'trabajo.verCorto': 'Watch the short film',
 
     'carrusel.anterior': 'Previous photo',
     'carrusel.siguiente': 'Next photo',

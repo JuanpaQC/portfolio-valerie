@@ -57,7 +57,7 @@ const grupos = await trabajosPorCategoria();
               {trabajo.data.video && (
                 <p>
                   <a class="boton" href={trabajo.data.video} target="_blank" rel="noopener">
-                    {t('trabajo.verClip')}
+                    {categoria === 'cortometraje' ? t('trabajo.verCorto') : t('trabajo.verClip')}
                   </a>
                 </p>
               )}
