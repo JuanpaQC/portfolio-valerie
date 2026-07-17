@@ -53,9 +53,11 @@ function formatearFecha(fecha: Date): string {
                 <p>{traducido(publicacion.data, 'resumen', lang)}</p>
               )}
               {publicacion.data.url && (
-                <a href={publicacion.data.url} target="_blank" rel="noopener">
-                  {t('publicaciones.leer')} →
-                </a>
+                <p class="publicacion-enlace">
+                  <a class="boton" href={publicacion.data.url} target="_blank" rel="noopener">
+                    {t('publicaciones.leer')}
+                  </a>
+                </p>
               )}
             </div>
           </article>
